@@ -1,12 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HostParam } from '@nestjs/common';
 import { AppService } from './app.service';
 
-@Controller()
+@Controller() //{ host: 'admin@admin.com' }
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    return 'Bienvendo a la pagina, pronto se actualizará con el landing page';
+  }
+  @Get('prueba')
+  prueba() {
+    // return JSON.stringify('./index.html');
+    return 'hola desde prueba';
   }
 }
