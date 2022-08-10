@@ -7,5 +7,6 @@ import { KanjisService } from './services/kanjis.service';
   controllers: [],
   providers: [KanjisService],
   imports: [SequelizeModule.forFeature([Kanji])],
+  exports: [KanjisService],
 })
 export class KanjisModule {}

@@ -8,10 +8,10 @@ import {
   Unique,
   Default,
   HasMany,
-  BelongsToMany
+  BelongsToMany,
 } from 'sequelize-typescript';
 
-import { Kanji } from 'src/kanjis/models/kanji.model'; 
+import { Kanji } from 'src/kanjis/models/kanji.model';
 import { UserKanji } from './user-kanji.model';
 
 @Table({ tableName: 'users' })
@@ -30,8 +30,8 @@ export class User extends Model {
   @Column({ defaultValue: 'user' })
   role: string;
 
-  @BelongsToMany(()=> Kanji, ()=> UserKanji)
-  favorite_kanjis: Kanji[]
+  @BelongsToMany(() => Kanji, () => UserKanji)
+  favorite_kanjis: Kanji[];
 
   @Column({ field: 'created_at', defaultValue: Sequelize.fn('now') })
   createdAt: Date;
