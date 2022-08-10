@@ -1,16 +1,18 @@
 import {
   AutoIncrement,
   Column,
-  CreatedAt,
-  DataType,
-  DeletedAt,
   Model,
   PrimaryKey,
   Sequelize,
   Table,
   Unique,
   Default,
+  HasMany,
+  BelongsToMany
 } from 'sequelize-typescript';
+
+import { Kanji } from 'src/kanjis/models/kanji.model'; 
+import { UserKanji } from './user-kanji.model';
 
 @Table({ tableName: 'users' })
 export class User extends Model {
@@ -28,11 +30,11 @@ export class User extends Model {
   @Column({ defaultValue: 'user' })
   role: string;
 
-  @Column({field: 'favorite_kanji'})
-  favoriteKanji: Array<number>
+  @BelongsToMany(()=> Kanji, ()=> UserKanji)
+  favorite_kanjis: Kanji[]
 
   @Column({ field: 'created_at', defaultValue: Sequelize.fn('now') })
-  creationDate: Date;
+  createdAt: Date;
 
   @Default(Sequelize.fn('now'))
   @Column({ field: 'updated_at' })

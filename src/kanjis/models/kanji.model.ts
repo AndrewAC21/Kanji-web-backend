@@ -2,9 +2,6 @@ import { DefaultValuePipe } from '@nestjs/common';
 import {
   AutoIncrement,
   Column,
-  CreatedAt,
-  DataType,
-  DeletedAt,
   Model,
   PrimaryKey,
   Sequelize,
@@ -12,8 +9,12 @@ import {
   Unique,
   Default,
   AllowNull,
+  BelongsToMany,
 } from 'sequelize-typescript';
+import { UserKanji } from 'src/users/models/user-kanji.model';
+import { User } from 'src/users/models/user.model';
 
+@Table({ tableName: 'kanjis' })
 export class Kanji extends Model {
   @PrimaryKey
   @AutoIncrement
@@ -29,12 +30,14 @@ export class Kanji extends Model {
   furigana: string;
   @Column({ allowNull: false })
   level: string;
-  @Column({ allowNull: false })
+  @Column({ allowNull: false, field: 'taken_from' })
   takenFrom: string;
+  @BelongsToMany(() => User, () => UserKanji)
+  in_users_list: User[];
   @Default(Sequelize.fn('now'))
   @Column({ field: 'created_at' })
   createdAt: Date;
   @Default(Sequelize.fn('now'))
-  @Column({ field: 'created_at' })
+  @Column({ field: 'updated_at' })
   updatedAt: Date;
 }
