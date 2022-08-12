@@ -13,13 +13,27 @@ export class UsersService {
     @Inject(KanjisService) private kanjisService: KanjisService,
   ) {}
 
+  findAll() {
+    return this.userModel.findAll({ include: Kanji });
+  }
   async findOne(id: number) {
-    let user = await this.userModel.findOne({ where: { id } });
+    let user = await this.userModel.findOne({
+      where: { id },
+      include: Kanji,
+    });
     if (!user) throw new NotFoundException('Usuario no encontrado');
     return user;
   }
+
   async createUser(data: CreateUserDto) {
-    let newUser = this.userModel.create({ data });
+    console.log(data);
+    let newUser = this.userModel.create({
+      email: data.email,
+      password: data.password,
+      fullName: data.fullName,
+      role: data.role,
+      favKanjis: [],
+    });
     return newUser;
   }
 
@@ -28,10 +42,14 @@ export class UsersService {
     let kanji = await this.kanjisService.findOne(kanjiData.pictogram);
     if (!kanji) {
       let newKanji = await this.kanjisService.create(kanjiData);
-      user.favorite_kanjis.push(newKanji);
-      return user.favorite_kanjis;
+      user.favKanjis = [newKanji] as Kanji[];
+      return user.favKanjis;
     }
-    user.favorite_kanjis.push(kanji);
-    return user.favorite_kanjis;
+    await user.update({ favKanjis: [kanji] });
+    await user.save();
+    return user;
+    // console.log(user.favKanjis);
+    // user.favKanjis = [...user.favKanjis, kanji];
+    // console.log(user.toJSON());
   }
 }

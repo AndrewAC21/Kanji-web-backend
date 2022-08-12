@@ -31,7 +31,7 @@ export class User extends Model {
   role: string;
 
   @BelongsToMany(() => Kanji, () => UserKanji)
-  favorite_kanjis: Kanji[];
+  favKanjis: Kanji[];
 
   @Column({ field: 'created_at', defaultValue: Sequelize.fn('now') })
   createdAt: Date;
