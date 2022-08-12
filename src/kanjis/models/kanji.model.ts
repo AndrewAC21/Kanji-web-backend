@@ -14,6 +14,7 @@ import {
 import { UserKanji } from 'src/users/models/user-kanji.model';
 import { User } from 'src/users/models/user.model';
 
+//TODO create level table 1:M with kanji
 @Table({ tableName: 'kanjis' })
 export class Kanji extends Model {
   @PrimaryKey

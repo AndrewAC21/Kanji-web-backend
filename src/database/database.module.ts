@@ -3,7 +3,7 @@ import { ConfigType } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Dialect } from 'sequelize/types';
 
-import config from 'config';
+import config from 'configs/config';
 import { DatabaseService } from './services/database.service';
 
 @Global()
