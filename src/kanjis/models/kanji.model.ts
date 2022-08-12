@@ -34,6 +34,7 @@ export class Kanji extends Model {
   takenFrom: string;
   @BelongsToMany(() => User, () => UserKanji)
   in_users_list: User[];
+  //todo exclude createdAt and updatedAt fields from the response
   @Default(Sequelize.fn('now'))
   @Column({ field: 'created_at' })
   createdAt: Date;

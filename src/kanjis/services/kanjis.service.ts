@@ -8,7 +8,7 @@ import { Kanji } from '../models/kanji.model';
 export class KanjisService {
   constructor(@InjectModel(Kanji) private kanjiModel: typeof Kanji) {}
 
-  findAll() {
+  findAll() { //TODO doing through search params
     return this.kanjiModel.findAll({ include: User });
   }
   async findOne(pictogram: string) {

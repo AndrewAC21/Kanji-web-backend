@@ -42,14 +42,10 @@ export class UsersService {
     let kanji = await this.kanjisService.findOne(kanjiData.pictogram);
     if (!kanji) {
       let newKanji = await this.kanjisService.create(kanjiData);
-      user.favKanjis = [newKanji] as Kanji[];
+      user.$add('favKanjis', newKanji);
       return user.favKanjis;
     }
-    await user.update({ favKanjis: [kanji] });
-    await user.save();
+    user.$add('favKanjis', kanji);
     return user;
-    // console.log(user.favKanjis);
-    // user.favKanjis = [...user.favKanjis, kanji];
-    // console.log(user.toJSON());
   }
 }

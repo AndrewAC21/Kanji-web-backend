@@ -33,13 +33,14 @@ export class User extends Model {
   @BelongsToMany(() => Kanji, () => UserKanji)
   favKanjis: Kanji[];
 
+  //todo exclude createdAt and updatedAt fields from the response
   @Column({ field: 'created_at', defaultValue: Sequelize.fn('now') })
   createdAt: Date;
 
   @Default(Sequelize.fn('now'))
   @Column({ field: 'updated_at' })
   updatedAt: Date;
-  @Default(Sequelize.fn('now'))
+  @Default(Sequelize.fn('now')) //todo fix the time issue
   @Column({ field: 'deleted_at' })
   deletedAt: Date;
 }
