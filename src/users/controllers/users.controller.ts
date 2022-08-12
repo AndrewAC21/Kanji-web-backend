@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { CreateKanjiDto } from 'src/kanjis/dtos/kanjis.dto';
 import { CreateUserDto } from '../dtos/users.dto';
 import { UsersService } from '../services/users.service';
@@ -6,6 +14,7 @@ import { UsersService } from '../services/users.service';
 @Controller('users')
 export class UsersController {
   constructor(@Inject(UsersService) private usersService: UsersService) {}
+  //todo turn all the responses into json responses
   @Get()
   getUsers() {
     return this.usersService.findAll();
@@ -25,7 +34,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  getUser(@Param('id') id: number) {
+  getUser(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findOne(id);
   }
 }

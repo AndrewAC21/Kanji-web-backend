@@ -20,6 +20,7 @@ import configSchema from 'configs/configSchema';
       isGlobal: true,
       load: [config],
       validationSchema: configSchema,
+
     }),
   ],
   controllers: [AppController],

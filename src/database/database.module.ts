@@ -16,6 +16,7 @@ import { DatabaseService } from './services/database.service';
           uri: configService.postgres.uri,
           autoLoadModels: configService.db.autoLoadModels,
           synchronize: true,
+          logging: false,
         };
       },
       inject: [config.KEY],

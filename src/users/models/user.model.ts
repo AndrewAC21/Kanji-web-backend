@@ -15,6 +15,7 @@ import { Kanji } from 'src/kanjis/models/kanji.model';
 import { UserKanji } from './user-kanji.model';
 
 @Table({ tableName: 'users' })
+
 export class User extends Model {
   @PrimaryKey
   @AutoIncrement
