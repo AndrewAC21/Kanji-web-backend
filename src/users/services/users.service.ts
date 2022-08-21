@@ -18,6 +18,7 @@ export class UsersService {
 
   async findAll() {
     let users = await this.userModel.findAll({
+      order: [['id', 'ASC']],
       include: Kanji,
     });
     return users;
@@ -28,7 +29,7 @@ export class UsersService {
       include: Kanji,
     });
     if (!user) throw new NotFoundException('Usuario no encontrado');
-    return user.toJSON();
+    return user;
   }
 
   async createUser(data: CreateUserDto) {
@@ -58,14 +59,18 @@ export class UsersService {
   }
 
   async removeKanjiFromList(userId: number, kanjiId: number) {
-    let user = await this.userModel.findByPk(userId);
+    let user = await this.findOne(userId);
     let kanji = await this.kanjisService.findOneById(kanjiId);
 
-    if (!kanji || !user.favKanjis.includes(kanji))
+    let favToArray = user.toJSON().favKanjis.map((kanji) => kanji.id);
+    console.log(favToArray);
+    console.log(favToArray.includes(kanji.id));
+
+    if (!kanji || !favToArray.includes(kanji.id))
       throw new NotFoundException('Kanji not found');
 
     user.$remove('favKanjis', kanji);
-    return user;
+    return true;
   }
   async updateInfo(id: number, data: UpdateUserDto) {
     let user = await this.findOne(id);
