@@ -10,38 +10,39 @@ import {
   HasMany,
   BelongsToMany,
 } from 'sequelize-typescript';
+import { Exclude, Expose } from 'class-transformer';
 
 import { Kanji } from 'src/kanjis/models/kanji.model';
 import { UserKanji } from './user-kanji.model';
 
 @Table({ tableName: 'users' })
-
 export class User extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column
-  id: number;
+  declare id: number;
   @Unique
   @Column({ allowNull: false })
-  email: string;
+  declare email: string;
+  @Exclude()
   @Column
-  password: string;
+  declare password: string;
   @Column({ field: 'full_name', allowNull: false })
-  fullName: string;
+  declare fullName: string;
   @Column({ defaultValue: 'user' })
-  role: string;
-
+  declare role: string;
   @BelongsToMany(() => Kanji, () => UserKanji)
   favKanjis: Kanji[];
 
   //todo exclude createdAt and updatedAt fields from the response
-  @Column({ field: 'created_at', defaultValue: Sequelize.fn('now') })
-  createdAt: Date;
 
-  @Default(Sequelize.fn('now'))
-  @Column({ field: 'updated_at' })
-  updatedAt: Date;
-  @Default(Sequelize.fn('now')) //todo fix the time issue
-  @Column({ field: 'deleted_at' })
-  deletedAt: Date;
+  // @Column({ field: 'created_at', defaultValue: Sequelize.fn('now') })
+  // createdAt: Date;
+
+  // @Default(Sequelize.fn('now'))
+  // @Column({ field: 'updated_at' })
+  // updatedAt: Date;
+  // @Default(Sequelize.fn('now')) //todo fix the time issue
+  // @Column({ field: 'deleted_at' })
+  // deletedAt: Date;
 }

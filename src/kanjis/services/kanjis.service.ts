@@ -8,11 +8,28 @@ import { Kanji } from '../models/kanji.model';
 export class KanjisService {
   constructor(@InjectModel(Kanji) private kanjiModel: typeof Kanji) {}
 
-  findAll() { //TODO doing through search params
-    return this.kanjiModel.findAll({ include: User });
+  findAll() {
+    //TODO doing through search params
+    return this.kanjiModel.findAll({
+      include: User,
+      attributes: [
+        'id',
+        'pictogram',
+        'meaning',
+        'furigana',
+        'level',
+        'takenFrom',
+      ],
+    });
   }
-  async findOne(pictogram: string) {
+  async findOneByPictpgram(pictogram: string) {
     let kanji = await this.kanjiModel.findOne({ where: { pictogram } });
+    if (!kanji) return null;
+    return kanji;
+  }
+
+  async findOneById(id: number) {
+    let kanji = await this.kanjiModel.findByPk(id);
     if (!kanji) return null;
     return kanji;
   }
