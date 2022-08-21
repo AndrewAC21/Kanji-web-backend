@@ -12,5 +12,6 @@ import { KanjisModule } from 'src/kanjis/kanjis.module';
   controllers: [ProfileController, UsersController],
   providers: [UsersService],
   imports: [KanjisModule, SequelizeModule.forFeature([User, UserKanji])],
+  exports: [UsersService],
 })
 export class UsersModule {}

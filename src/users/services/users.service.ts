@@ -14,7 +14,6 @@ export class UsersService {
     @InjectModel(User) private userModel: typeof User,
     @Inject(KanjisService) private kanjisService: KanjisService,
   ) {}
-  //todo turn all the responses into json responses
 
   async findAll() {
     let users = await this.userModel.findAll({
@@ -28,6 +27,12 @@ export class UsersService {
       where: { id },
       include: Kanji,
     });
+    if (!user) throw new NotFoundException('Usuario no encontrado');
+    return user;
+  }
+
+  async findByEmail(email: string) {
+    let user = await this.userModel.findOne({ where: { email } });
     if (!user) throw new NotFoundException('Usuario no encontrado');
     return user;
   }
@@ -63,8 +68,6 @@ export class UsersService {
     let kanji = await this.kanjisService.findOneById(kanjiId);
 
     let favToArray = user.toJSON().favKanjis.map((kanji) => kanji.id);
-    console.log(favToArray);
-    console.log(favToArray.includes(kanji.id));
 
     if (!kanji || !favToArray.includes(kanji.id))
       throw new NotFoundException('Kanji not found');
