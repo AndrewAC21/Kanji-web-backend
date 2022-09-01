@@ -32,13 +32,12 @@ export class UsersService {
   }
 
   async findByEmail(email: string) {
-    let user = await this.userModel.findOne({ where: { email } });
+    let user = await this.userModel.findOne({ where: { email }, raw: true });
     if (!user) throw new NotFoundException('Usuario no encontrado');
     return user;
   }
 
   async createUser(data: CreateUserDto) {
-    console.log(data);
     let newUser = this.userModel.create({
       email: data.email,
       password: this.encryptPassword(data.password),
@@ -63,7 +62,7 @@ export class UsersService {
     return user;
   }
 
-  async removeKanjiFromList(userId: number, kanjiId: number) {
+  async removeKanjiFromList(userId:number, kanjiId: number) {
     let user = await this.findOne(userId);
     let kanji = await this.kanjisService.findOneById(kanjiId);
 

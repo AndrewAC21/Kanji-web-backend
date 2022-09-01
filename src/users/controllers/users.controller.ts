@@ -17,6 +17,8 @@ import { CreateKanjiDto } from 'src/kanjis/dtos/kanjis.dto';
 import { CreateUserDto, UpdateUserDto } from '../dtos/users.dto';
 import { UsersService } from '../services/users.service';
 
+
+
 @Controller('users')
 export class UsersController {
   constructor(@Inject(UsersService) private usersService: UsersService) {}
@@ -42,19 +44,7 @@ export class UsersController {
   getUser(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findOne(id);
   }
-  @Delete(':userId/remove-kanji/:kanjiId') //todo change it to Profile controller and use JWT to get the userId
-  async removeKanjiFromFavs(
-    @Param('userId', ParseIntPipe) userId: number,
-    @Param('kanjiId', ParseIntPipe) kanjiId: number,
-    @Res() res: Response,
-  ) {
-    let response = await this.usersService.removeKanjiFromList(userId, kanjiId);
-
-    return res
-      .status(HttpStatus.OK)
-      .json({ status: 'ok', message: 'Kanji removed from fav list' });
-  }
-
+  
   @Put('updateInfo/:id') //todo change it to Profile controller
   async updateInfo(
     @Param('id', ParseIntPipe) id: number,

@@ -5,11 +5,10 @@ import { UsersController } from './controllers/users.controller';
 import { UsersService } from './services/users.service';
 import { User } from './models/user.model';
 import { UserKanji } from './models/user-kanji.model';
-import { ProfileController } from './controllers/profile.controller';
 import { KanjisModule } from 'src/kanjis/kanjis.module';
 
 @Module({
-  controllers: [ProfileController, UsersController],
+  controllers: [UsersController],
   providers: [UsersService],
   imports: [KanjisModule, SequelizeModule.forFeature([User, UserKanji])],
   exports: [UsersService],

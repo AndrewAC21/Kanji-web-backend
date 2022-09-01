@@ -6,7 +6,10 @@ import { UsersService } from 'src/users/services/users.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService, private jwtService: JwtService) {}
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
   async validateUser(email: string, pass: string) {
     let user = await this.usersService.findByEmail(email);
     if (user) {
@@ -18,11 +21,11 @@ export class AuthService {
     return null;
   }
 
-  async createJWT(user:User){
+  async createJWT(user: User) {
     const payload = { email: user.email, sub: user.id };
+    console.log(payload);
     return {
-      "access_token": this.jwtService.sign(payload)
-    }
+      access_token: this.jwtService.sign(payload),
+    };
   }
-
 }

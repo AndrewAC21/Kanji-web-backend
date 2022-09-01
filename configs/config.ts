@@ -9,5 +9,8 @@ export default registerAs('config', () => {
     postgres: {
       uri: process.env.POSTGRES_URI,
     },
+    jwt: {
+      secret: process.env.JWT_SECRET,
+    },
   };
 });
