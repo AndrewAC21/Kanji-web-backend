@@ -47,7 +47,12 @@ export class UsersService {
     });
     return newUser;
   }
+  encryptPassword(password: string) {
+    let encriteptedPassword = bcrypt.hashSync(password, 10);
+    return encriteptedPassword;
+  }
 
+  // <---------- account specific actions  ---------->
   async addKanjiToList(userId: number, kanjiData: CreateKanjiDto) {
     let user = await this.userModel.findByPk(userId);
     let kanji = await this.kanjisService.findOneByPictpgram(
@@ -62,7 +67,7 @@ export class UsersService {
     return user;
   }
 
-  async removeKanjiFromList(userId:number, kanjiId: number) {
+  async removeKanjiFromList(userId: number, kanjiId: number) {
     let user = await this.findOne(userId);
     let kanji = await this.kanjisService.findOneById(kanjiId);
 
@@ -74,18 +79,26 @@ export class UsersService {
     user.$remove('favKanjis', kanji);
     return true;
   }
+
+  async getFavoriteKanjis(userId: number) {
+    let user = await this.findOne(userId);
+    let favKanjis = user.toJSON().favKanjis;
+
+    console.log(favKanjis);
+    return favKanjis;
+  }
   async updateInfo(id: number, data: UpdateUserDto) {
     let user = await this.findOne(id);
+    let dataToUpdate = { ...data };
+    if (data.password) {
+      let { password, ...rest } = data;
+      dataToUpdate = { password: this.encryptPassword(password), ...rest };
+    }
     let updatedUser = await this.userModel.update(
-      { ...data },
+      { ...dataToUpdate },
       { where: { id: user.id } },
     ); //todo check if the info is not alreay in user
     if (updatedUser[0] === 0) throw new Error('Could not update the user');
     return true;
-  }
-
-  encryptPassword(password: string) {
-    let encriteptedPassword = bcrypt.hashSync(password, 10);
-    return encriteptedPassword;
   }
 }

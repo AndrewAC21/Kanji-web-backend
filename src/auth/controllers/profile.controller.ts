@@ -12,37 +12,75 @@ import {
   Req,
   ParseIntPipe,
   forwardRef,
+  Post,
+  Body,
 } from '@nestjs/common';
 
 import { Response } from 'express';
+import { CreateKanjiDto } from 'src/kanjis/dtos/kanjis.dto';
+import { UpdateUserDto } from 'src/users/dtos/users.dto';
 import { UsersService } from 'src/users/services/users.service';
 
 import { JwtGuard } from '../../auth/guards/jwt.guard';
+import { PayloadToken } from '../models/token.model';
 
 @UseGuards(JwtGuard)
 @Controller('profile')
 export class ProfileController {
-  //todo create a private var of the userId taken from the JWT token
-
   constructor(
     @Inject(forwardRef(() => UsersService)) private usersService: UsersService,
   ) {}
 
   @Get()
-  getUserProfile(@Request() req) {
-    console.log(req.user, 'req.user');
-    return req.user;
+  async showSettings(@Req() req) {
+    let user = await this.usersService.findOne(req.user.userId);
+
+    let { email, fullName } = user;
+
+    return {
+      status: 'ok',
+      message: {
+        email,
+        fullName,
+      },
+    };
+  }
+
+  @Put()
+  async updateInfo(
+    @Req() req,
+    @Body() payload: UpdateUserDto,
+    @Res() res: Response,
+  ) {
+    let response = await this.usersService.updateInfo(req.user.userId, payload);
+
+    return res
+      .status(HttpStatus.OK)
+      .json({ status: 'ok', message: 'User updated' });
+  }
+
+  @Get('favorites')
+  getFavoriteKanjis(@Req() req) {
+    console.log(req.user, 'get favs service');
+    return this.usersService.getFavoriteKanjis(req.user.userId);
+  }
+
+  @Post('favorite')
+  addKanji(
+    @Body()
+    { userId, kanjiData }: { userId: number; kanjiData: CreateKanjiDto },
+  ) {
+    return this.usersService.addKanjiToList(userId, kanjiData);
   }
 
   @Delete('favorites/:kanjiId')
-  getFavoriteKanjis() {}
   async removeKanjiFromFavs(
     @Req() req,
     @Param('kanjiId', ParseIntPipe) kanjiId: number,
     @Res() res: Response,
   ) {
     let response = await this.usersService.removeKanjiFromList(
-      req.user.id,
+      req.user.userId,
       kanjiId,
     );
     if (response) {
@@ -51,9 +89,4 @@ export class ProfileController {
         .json({ status: 'ok', message: 'Kanji removed from favorites' });
     }
   }
-  @Get('settings')
-  showSettings() {}
-
-  @Put('settings')
-  changeSettings() {}
 }
