@@ -15,6 +15,7 @@ async function bootstrap() {
   // app.useGlobalInterceptors(
   //   new ClassSerializerInterceptor(app.get(Reflector), {}),
   // );
+  app.enableCors({origin: 'http://localhost:5173'});
   const configService = app.get(ConfigService);
   const port = configService.get('PORT');
 
