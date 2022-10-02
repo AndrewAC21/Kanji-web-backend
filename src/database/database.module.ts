@@ -19,7 +19,7 @@ import { UserKanji } from 'src/users/models/user-kanji.model';
           uri: configService.postgres.uri,
           models: [User, Kanji, UserKanji],
           synchronize: false,
-          logging: true,
+          logging: false,
         };
       },
       inject: [config.KEY],
