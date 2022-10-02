@@ -11,13 +11,16 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true },
     }),
   );
-  // todo fix serialization problem 
+  // todo fix serialization problem
   // app.useGlobalInterceptors(
   //   new ClassSerializerInterceptor(app.get(Reflector), {}),
   // );
-  app.enableCors({origin: 'http://localhost:5173'});
+  app.enableCors({
+    origin: 'http://localhost:5173' || 'http://localhost:3000',
+  });
   const configService = app.get(ConfigService);
   const port = configService.get('PORT');
+  console.log(configService, port);
 
   await app.listen(port);
 }
