@@ -11,7 +11,6 @@ export class KanjisService {
   findAll() {
     //TODO doing through search params
     return this.kanjiModel.findAll({
-      include: User,
       attributes: [
         'id',
         'pictogram',
