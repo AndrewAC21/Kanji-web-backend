@@ -4,6 +4,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import config from 'configs/config';
 import { JwtService } from '@nestjs/jwt';
+import { PayloadToken } from '../models/token.model';
+import { User } from 'src/users/models/user.model';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -14,8 +16,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       secretOrKey: configService.jwt.secret,
     });
   }
-
-  async validate(payload: any) {
-    return { userId: payload.sub, email: payload.email };
+  // PassportStrategy es la que valida el token y lo decodifica
+  async validate(payload) {
+    // Esto lo ejecuta automaticamente, cuando se hace una peticion con el token y lo añade al header de request
+    console.log(payload);
+    return { userId: payload.sub, role: payload.role };
   }
 }

@@ -28,6 +28,17 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: 'user',
       },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+
+        defaultValue: Sequelize.NOW,
+      },
     });
     await queryInterface.createTable('kanjis', {
       id: {
@@ -57,6 +68,17 @@ module.exports = {
         allowNull: false,
         field: 'taken_from',
       },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
     await queryInterface.createTable('user-kanji', {
       userId: {
@@ -75,12 +97,23 @@ module.exports = {
           key: 'id',
         },
       },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
   },
 
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('users');
     await queryInterface.dropTable('kanjis');
-    await queryInterface.dropTable('user_kanji');
+    await queryInterface.dropTable('user-kanji');
   },
 };

@@ -20,6 +20,7 @@ import { UserKanji } from 'src/users/models/user-kanji.model';
           models: [User, Kanji, UserKanji],
           synchronize: false,
           logging: false,
+          
         };
       },
       inject: [config.KEY],

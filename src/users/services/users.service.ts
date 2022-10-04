@@ -54,6 +54,7 @@ export class UsersService {
 
   // <---------- account specific actions  ---------->
   async addKanjiToList(userId: number, kanjiData: CreateKanjiDto) {
+    //TODO get the user from the JWT token
     let user = await this.userModel.findByPk(userId);
     let kanji = await this.kanjisService.findOneByPictpgram(
       kanjiData.pictogram,

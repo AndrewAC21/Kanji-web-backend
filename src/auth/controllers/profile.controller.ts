@@ -33,6 +33,7 @@ export class ProfileController {
 
   @Get()
   async showSettings(@Req() req) {
+    console.log(req.user);
     let user = await this.usersService.findOne(req.user.userId);
 
     let { email, fullName } = user;
@@ -61,7 +62,6 @@ export class ProfileController {
 
   @Get('favorites')
   getFavoriteKanjis(@Req() req) {
-    console.log(req.user, 'get favs service');
     return this.usersService.getFavoriteKanjis(req.user.userId);
   }
 
