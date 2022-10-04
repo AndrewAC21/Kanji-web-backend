@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { Role } from 'src/auth/decorators/roles.decorator';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { RoleGuard } from 'src/auth/guards/role.guard';
@@ -10,7 +11,7 @@ import { KanjisService } from '../services/kanjis.service';
 @Controller('kanjis')
 export class KanjisController {
   constructor(@Inject(KanjisService) private kanjisService: KanjisService) {}
-
+  @Public()
   @Get()
   getKanjis() {
     return this.kanjisService.findAll();

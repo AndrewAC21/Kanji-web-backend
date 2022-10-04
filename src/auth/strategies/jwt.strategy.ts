@@ -8,7 +8,7 @@ import { PayloadToken } from '../models/token.model';
 import { User } from 'src/users/models/user.model';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(@Inject(config.KEY) configService: ConfigType<typeof config>) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
