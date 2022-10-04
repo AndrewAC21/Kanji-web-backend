@@ -4,7 +4,6 @@ import {
   Put,
   Delete,
   UseGuards,
-  Request,
   Param,
   Res,
   HttpStatus,
@@ -33,11 +32,8 @@ export class ProfileController {
 
   @Get()
   async showSettings(@Req() req) {
-    console.log(req.user);
     let user = await this.usersService.findOne(req.user.userId);
-
     let { email, fullName } = user;
-
     return {
       status: 'ok',
       message: {
@@ -67,10 +63,11 @@ export class ProfileController {
 
   @Post('favorite')
   addKanji(
+    @Req() req,
     @Body()
-    { userId, kanjiData }: { userId: number; kanjiData: CreateKanjiDto },
+    kanjiData: CreateKanjiDto,
   ) {
-    return this.usersService.addKanjiToList(userId, kanjiData);
+    return this.usersService.addKanjiToList(req.user.userId, kanjiData);
   }
 
   @Delete('favorites/:kanjiId')

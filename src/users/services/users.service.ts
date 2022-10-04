@@ -54,7 +54,7 @@ export class UsersService {
 
   // <---------- account specific actions  ---------->
   async addKanjiToList(userId: number, kanjiData: CreateKanjiDto) {
-    //TODO get the user from the JWT token
+
     let user = await this.userModel.findByPk(userId);
     let kanji = await this.kanjisService.findOneByPictpgram(
       kanjiData.pictogram,
@@ -83,10 +83,20 @@ export class UsersService {
 
   async getFavoriteKanjis(userId: number) {
     let user = await this.findOne(userId);
-    let favKanjis = user.toJSON().favKanjis;
 
-    console.log(favKanjis);
-    return favKanjis;
+    let favKanjis = user.toJSON().favKanjis;
+    const mappedFavorites = favKanjis.map((kanji: Kanji) => {
+      let { id, pictogram, meaning, furigana, level, takenFrom } = kanji;
+      return {
+        id,
+        pictogram,
+        meaning,
+        furigana,
+        level,
+        takenFrom,
+      };
+    });
+    return mappedFavorites;
   }
   async updateInfo(id: number, data: UpdateUserDto) {
     let user = await this.findOne(id);

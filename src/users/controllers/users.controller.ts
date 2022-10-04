@@ -6,19 +6,15 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  Put,
-  Res,
-  HttpStatus,
-  Delete,
   UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
+
+import { Public } from 'src/auth/decorators/public.decorator';
 import { Role } from 'src/auth/decorators/roles.decorator';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { Roles } from 'src/auth/models/roles.model';
 
-import { CreateKanjiDto } from 'src/kanjis/dtos/kanjis.dto';
 import { CreateUserDto, UpdateUserDto } from '../dtos/users.dto';
 import { UsersService } from '../services/users.service';
 
@@ -31,7 +27,7 @@ export class UsersController {
   getUsers() {
     return this.usersService.findAll();
   }
-
+  @Public()
   @Post('/create-user')
   createUser(@Body() payload: CreateUserDto) {
     return this.usersService.createUser(payload);
