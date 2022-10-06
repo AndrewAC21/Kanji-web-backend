@@ -53,7 +53,7 @@ export class UsersService {
       role: data.role || 'user',
       favKanjis: [],
     });
-    return newUser;
+    return true;
   }
   encryptPassword(password: string) {
     let encriteptedPassword = bcrypt.hashSync(password, 10);
@@ -61,7 +61,7 @@ export class UsersService {
   }
 
   // <---------- account specific actions  ---------->
-  async addKanjiToList(userId: number, kanjiData: CreateKanjiDto) {
+  async addKanjiToListByPictogram(userId: number, kanjiData: CreateKanjiDto) {
     let user = await this.userModel.findByPk(userId);
     let kanji = await this.kanjisService.findOneByPictpgram(
       kanjiData.pictogram,
@@ -71,6 +71,16 @@ export class UsersService {
       user.$add('favKanjis', newKanji);
       return user;
     }
+    user.$add('favKanjis', kanji);
+    return user;
+  }
+
+  async addKanjiToListById(userId: number, kanjiId: number) {
+    let user = await this.userModel.findByPk(userId);
+    let kanji = await this.kanjisService.findOneById(kanjiId);
+    
+    if (!kanji) throw new NotFoundException('Kanji not found');
+    
     user.$add('favKanjis', kanji);
     return user;
   }

@@ -53,22 +53,42 @@ export class ProfileController {
   }
 
   @Post('favorite')
-  addKanji(@Req() req, @Body('kanjiId', ParseIntPipe) kanjiId: number) {
-    return this.usersService.addKanjiToList(req.user.userId, kanjiId);
-  }
-
-  @Delete('favorites/:kanjiId')
-  async removeKanjiFromFavs(
+  async addKanji(
     @Req() req,
-    @Param('kanjiId', ParseIntPipe) kanjiId: number,
+    @Body('kanjiId', ParseIntPipe) kanjiId: number,
     @Res() res: Response,
   ) {
-    let response = await this.usersService.removeKanjiFromList(
-      req.user.userId,
-      kanjiId,
-    );
-    return res
-      .status(HttpStatus.OK)
-      .json({ message: 'Kanji removed from favorites' });
+    try {
+      const added = await this.usersService.addKanjiToListById(
+        req.user.userId,
+        kanjiId,
+      );
+      return res
+        .status(HttpStatus.OK)
+        .json({ message: 'Kanji added to favorites' });
+    } catch (e) {
+      console.log('error agregando fav kanji');
+      return res.json(e.response);
+    }
+  }
+
+  @Delete('favorites')
+  async removeKanjiFromFavs(
+    @Req() req,
+    @Body('kanjiId', ParseIntPipe) kanjiId: number,
+    @Res() res: Response,
+  ) {
+    try {
+      let response = await this.usersService.removeKanjiFromList(
+        req.user.userId,
+        kanjiId,
+      );
+      return res
+        .status(HttpStatus.OK)
+        .json({ message: 'Kanji removed from favorites' });
+    } catch (e) {
+      console.log('error eliminando fav kanji');
+      return res.json(e.response);
+    }
   }
 }
