@@ -1,17 +1,19 @@
-import { Controller, Get, HostParam } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, HostParam, Inject, Post, Req, UseGuards } from '@nestjs/common';
+import { LocalAuthGuard } from './auth/guards/local-auth.guard';
+import { AuthService } from './auth/services/auth.service';
 
 @Controller() //{ host: 'admin@admin.com' }
 export class AppController {
-  constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return 'Bienvendo a la pagina, pronto se actualizará con el landing page';
+  constructor(@Inject(AuthService) private authService: AuthService) {}
+
+  @UseGuards(LocalAuthGuard)
+  @Post('login')
+  login(@Req() req) {
+    return this.authService.createJWT(req.user);
   }
-  @Get('prueba')
-  prueba() {
-    // return JSON.stringify('./index.html');
-    return 'hola desde prueba';
-  }
+
+  @Post('sign-up')
+  createNewUser() {}
 }
+
