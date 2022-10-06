@@ -21,7 +21,6 @@ import { UpdateUserDto } from 'src/users/dtos/users.dto';
 import { UsersService } from 'src/users/services/users.service';
 
 import { JwtGuard } from '../../auth/guards/jwt.guard';
-import { PayloadToken } from '../models/token.model';
 
 @UseGuards(JwtGuard)
 @Controller('profile')
@@ -30,20 +29,14 @@ export class ProfileController {
     @Inject(forwardRef(() => UsersService)) private usersService: UsersService,
   ) {}
 
-  @Get()
-  async showSettings(@Req() req) {
+  @Get('settings')
+  async showSettings(@Req() req, @Res() res: Response) {
     let user = await this.usersService.findOne(req.user.userId);
     let { email, fullName } = user;
-    return {
-      status: 'ok',
-      message: {
-        email,
-        fullName,
-      },
-    };
+    return res.status(HttpStatus.OK).json({ email, fullName });
   }
 
-  @Put()
+  @Put('settings')
   async updateInfo(
     @Req() req,
     @Body() payload: UpdateUserDto,
@@ -51,9 +44,7 @@ export class ProfileController {
   ) {
     let response = await this.usersService.updateInfo(req.user.userId, payload);
 
-    return res
-      .status(HttpStatus.OK)
-      .json({ status: 'ok', message: 'User updated' });
+    return res.status(HttpStatus.OK).json({ message: 'User updated' });
   }
 
   @Get('favorites')
@@ -62,12 +53,8 @@ export class ProfileController {
   }
 
   @Post('favorite')
-  addKanji(
-    @Req() req,
-    @Body()
-    kanjiData: CreateKanjiDto,
-  ) {
-    return this.usersService.addKanjiToList(req.user.userId, kanjiData);
+  addKanji(@Req() req, @Body('kanjiId', ParseIntPipe) kanjiId: number) {
+    return this.usersService.addKanjiToList(req.user.userId, kanjiId);
   }
 
   @Delete('favorites/:kanjiId')
@@ -80,10 +67,8 @@ export class ProfileController {
       req.user.userId,
       kanjiId,
     );
-    if (response) {
-      return res
-        .status(HttpStatus.OK)
-        .json({ status: 'ok', message: 'Kanji removed from favorites' });
-    }
+    return res
+      .status(HttpStatus.OK)
+      .json({ message: 'Kanji removed from favorites' });
   }
 }
