@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import * as bcrypt from 'bcrypt';
 
@@ -33,11 +38,14 @@ export class UsersService {
 
   async findByEmail(email: string) {
     let user = await this.userModel.findOne({ where: { email }, raw: true });
-    if (!user) throw new NotFoundException('Usuario no encontrado');
+    if (!user) return false;
     return user;
   }
 
   async createUser(data: CreateUserDto) {
+    const existingEmail = await this.findByEmail(data.email);
+    if (existingEmail) throw new ConflictException('Email already in use');
+
     let newUser = this.userModel.create({
       email: data.email,
       password: this.encryptPassword(data.password),
@@ -54,7 +62,6 @@ export class UsersService {
 
   // <---------- account specific actions  ---------->
   async addKanjiToList(userId: number, kanjiData: CreateKanjiDto) {
-
     let user = await this.userModel.findByPk(userId);
     let kanji = await this.kanjisService.findOneByPictpgram(
       kanjiData.pictogram,
