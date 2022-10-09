@@ -10,9 +10,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './auth/guards/local-auth.guard';
+import { JwtGuard } from './auth/guards/jwt.guard';
 import { AuthService } from './auth/services/auth.service';
 import { CreateUserDto } from './users/dtos/users.dto';
 import { UsersService } from './users/services/users.service';
+import { Request } from 'express';
 
 @Controller() //{ host: 'admin@admin.com' }
 export class AppController {
@@ -43,4 +45,11 @@ export class AppController {
       return res.json(e.response);
     }
   }
+
+  /*   @UseGuards(JwtGuard)
+  @Post('logout')
+  async logout(@Req() req: Request, @Res() res) {
+    const token = req.headers.authorization;
+    const i = await this.authService.disableJWT(token);
+  }  */
 }

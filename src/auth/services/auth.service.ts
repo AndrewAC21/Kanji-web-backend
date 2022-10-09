@@ -28,4 +28,10 @@ export class AuthService {
       access_token: this.jwtService.sign(payload),
     };
   }
+  /* async disableJWT(token: string) {
+    const cleanedTokenString = token.split(' ')[1];
+
+    console.log(cleanedTokenString);
+    return true;
+  } */
 }

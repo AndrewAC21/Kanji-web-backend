@@ -19,7 +19,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   // PassportStrategy es la que valida el token y lo decodifica
   async validate(payload) {
     // Esto lo ejecuta automaticamente, cuando se hace una peticion con el token y lo añade al header de request
-    console.log(payload);
     return { userId: payload.sub, role: payload.role };
   }
 }
