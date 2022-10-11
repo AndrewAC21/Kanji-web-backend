@@ -8,6 +8,9 @@ export class CreateKanjiDto {
   readonly meaning: string;
   @IsNotEmpty()
   @IsString()
+  readonly hiragana: string;
+  @IsNotEmpty()
+  @IsString()
   readonly furigana: string;
   @IsNotEmpty()
   @IsString()

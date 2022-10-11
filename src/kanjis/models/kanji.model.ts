@@ -26,7 +26,8 @@ export class Kanji extends Model {
   declare pictogram: string;
   @Column({ allowNull: false })
   declare meaning: string;
-
+  @Column({ allowNull: false })
+  declare hiragana: string;
   @Column({ allowNull: false })
   declare furigana: string;
   @Column({ allowNull: false })

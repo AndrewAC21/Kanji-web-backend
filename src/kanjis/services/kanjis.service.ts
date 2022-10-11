@@ -15,6 +15,7 @@ export class KanjisService {
         'id',
         'pictogram',
         'meaning',
+        'hiragana',
         'furigana',
         'level',
         'takenFrom',

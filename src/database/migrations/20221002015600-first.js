@@ -55,6 +55,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      hiragana: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       furigana: {
         type: Sequelize.STRING,
         allowNull: false,
