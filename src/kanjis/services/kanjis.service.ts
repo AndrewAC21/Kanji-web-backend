@@ -37,6 +37,7 @@ export class KanjisService {
     let newKanji = this.kanjiModel.create({
       pictogram: data.pictogram,
       meaning: data.meaning,
+      hiragana: data.hiragana,
       furigana: data.furigana,
       level: data.level,
       takenFrom: data.takenFrom,

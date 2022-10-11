@@ -78,9 +78,9 @@ export class UsersService {
   async addKanjiToListById(userId: number, kanjiId: number) {
     let user = await this.userModel.findByPk(userId);
     let kanji = await this.kanjisService.findOneById(kanjiId);
-    
+
     if (!kanji) throw new NotFoundException('Kanji not found');
-    
+
     user.$add('favKanjis', kanji);
     return user;
   }
@@ -114,6 +114,15 @@ export class UsersService {
       };
     });
     return mappedFavorites;
+  }
+
+  async isFavoriteKanji(userId: number, kanjiId: number) {
+    let user = await this.findOne(userId);
+
+    let favKanjis = user.toJSON().favKanjis;
+
+    let favToArray: number[] = favKanjis.map((kanji) => kanji.id);
+    return favToArray.includes(kanjiId) ? true : false;
   }
   async updateInfo(id: number, data: UpdateUserDto) {
     let user = await this.findOne(id);

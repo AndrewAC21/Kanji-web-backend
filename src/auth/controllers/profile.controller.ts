@@ -47,12 +47,20 @@ export class ProfileController {
     return res.status(HttpStatus.OK).json({ message: 'User updated' });
   }
 
+  @Get('is-favorite/:kanjiId')
+  async isFavorite(
+    @Req() req,
+    @Param('kanjiId', ParseIntPipe) kanjiId: number,
+  ) {
+    return this.usersService.isFavoriteKanji(req.user.userId, kanjiId);
+  }
+
   @Get('favorites')
   getFavoriteKanjis(@Req() req) {
     return this.usersService.getFavoriteKanjis(req.user.userId);
   }
 
-  @Post('favorite')
+  @Post('favorites')
   async addKanji(
     @Req() req,
     @Body('kanjiId', ParseIntPipe) kanjiId: number,
