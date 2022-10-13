@@ -42,9 +42,17 @@ export class ProfileController {
     @Body() payload: UpdateUserDto,
     @Res() res: Response,
   ) {
-    let response = await this.usersService.updateInfo(req.user.userId, payload);
+    try {
+      let response = await this.usersService.updateInfo(
+        req.user.userId,
+        payload,
+      );
 
-    return res.status(HttpStatus.OK).json({ message: 'User updated' });
+      return res.status(HttpStatus.OK).json({ message: 'User updated' });
+    } catch (e) {
+      console.log('error actualizando usuario');
+      return res.status(e.status).json(e.response);
+    }
   }
 
   @Get('is-favorite/:kanjiId')
@@ -76,7 +84,7 @@ export class ProfileController {
         .json({ message: 'Kanji added to favorites' });
     } catch (e) {
       console.log('error agregando fav kanji');
-      return res.json(e.response);
+      return res.status(e.status).json(e.response);
     }
   }
 
@@ -96,7 +104,7 @@ export class ProfileController {
         .json({ message: 'Kanji removed from favorites' });
     } catch (e) {
       console.log('error eliminando fav kanji');
-      return res.json(e.response);
+      return res.status(e.status).json(e.response);
     }
   }
 }

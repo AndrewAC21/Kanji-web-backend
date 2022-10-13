@@ -6,7 +6,9 @@ import {
   ParseIntPipe,
   Post,
   UseGuards,
+  Res,
 } from '@nestjs/common';
+import { Response } from 'express';
 
 import { Role } from 'src/auth/decorators/roles.decorator';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
@@ -27,7 +29,12 @@ export class UsersController {
 
   @Role(Roles.ADMIN)
   @Get(':id')
-  getUser(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findOne(id);
+  async getUser(@Param('id', ParseIntPipe) id: number, @Res() res: Response) {
+    try {
+      const response = await this.usersService.findOne(id);
+      res.status(200).json(response);
+    } catch (e) {
+      res.status(e.status).json(e.response);
+    }
   }
 }
