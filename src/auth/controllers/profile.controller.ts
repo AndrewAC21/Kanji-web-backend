@@ -55,14 +55,6 @@ export class ProfileController {
     }
   }
 
-  @Get('is-favorite/:kanjiId')
-  async isFavorite(
-    @Req() req,
-    @Param('kanjiId', ParseIntPipe) kanjiId: number,
-  ) {
-    return this.usersService.isFavoriteKanji(req.user.userId, kanjiId);
-  }
-
   @Get('favorites')
   getFavoriteKanjis(@Req() req) {
     return this.usersService.getFavoriteKanjis(req.user.userId);
@@ -71,7 +63,7 @@ export class ProfileController {
   @Post('favorites')
   async addKanji(
     @Req() req,
-    @Body('kanjiId', ParseIntPipe) kanjiId: number,
+    @Body('kanjiId') kanjiId: number,
     @Res() res: Response,
   ) {
     try {
@@ -106,5 +98,12 @@ export class ProfileController {
       console.log('error eliminando fav kanji');
       return res.status(e.status).json(e.response);
     }
+  }
+  @Get('is-favorite/:kanjiId')
+  async isFavorite(
+    @Req() req,
+    @Param('kanjiId', ParseIntPipe) kanjiId: number,
+  ) {
+    return this.usersService.isFavoriteKanji(req.user.userId, kanjiId);
   }
 }
