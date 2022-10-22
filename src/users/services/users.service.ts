@@ -78,7 +78,7 @@ export class UsersService {
   async addKanjiToListById(userId: number, kanjiId: number) {
     let user = await this.userModel.findByPk(userId);
     let kanji = await this.kanjisService.findOneById(kanjiId);
-
+    console.log(kanjiId, kanji);
     if (!kanji) throw new NotFoundException('Kanji not found');
 
     user.$add('favKanjis', kanji);

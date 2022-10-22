@@ -16,7 +16,7 @@ async function bootstrap() {
   //   new ClassSerializerInterceptor(app.get(Reflector), {}),
   // );
   app.enableCors({
-    origin: 'http://127.0.0.1:5173' || 'http://127.0.0.1:3000',
+    origin: 'https://andrewac21.github.io',
   });
   const configService = app.get(ConfigService);
   const port = configService.get('PORT');
