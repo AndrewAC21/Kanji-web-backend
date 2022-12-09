@@ -6,12 +6,14 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import * as bcrypt from 'bcrypt';
+import { ConfigType } from '@nestjs/config';
 
 import { CreateKanjiDto } from 'src/kanjis/dtos/kanjis.dto';
 import { Kanji } from 'src/kanjis/models/kanji.model';
 import { KanjisService } from 'src/kanjis/services/kanjis.service';
 import { CreateUserDto, UpdateUserDto } from '../dtos/users.dto';
 import { User } from '../models/user.model';
+import config from 'configs/config';
 
 @Injectable()
 export class UsersService {
@@ -137,5 +139,9 @@ export class UsersService {
     ); //todo check if the info is not alreay in user
     if (updatedUser[0] === 0) throw new Error('Could not update the user');
     return true;
+  }
+
+  async changeProfilePicture(id: number, profilePicture: File) {
+    let user = await this.findOne(id);
   }
 }

@@ -16,7 +16,7 @@ async function bootstrap() {
   //   new ClassSerializerInterceptor(app.get(Reflector), {}),
   // );
   app.enableCors({
-    origin: 'https://andrewac21.github.io',
+    origin: 'https://andrewac21.github.io' || 'https://andrewac21.github.io/Kanji-App-Frontend'
   });
   const configService = app.get(ConfigService);
   const port = configService.get('PORT');

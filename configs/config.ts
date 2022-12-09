@@ -12,5 +12,11 @@ export default registerAs('config', () => {
     jwt: {
       secret: process.env.JWT_SECRET,
     },
+    s3: {
+      bucketName: process.env.AWS_S3_BUCKET_NAME,
+      region: process.env.AWS_S3_REGION,
+      privateKey: process.env.AWS_S3_PRIVATE_KEY,
+      publicKey: process.env.AWS_S3_PUBLIC_KEY,
+    }
   };
 });
