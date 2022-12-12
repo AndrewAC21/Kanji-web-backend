@@ -15,12 +15,11 @@ import { UserKanji } from 'src/users/models/user-kanji.model';
     SequelizeModule.forRootAsync({
       useFactory: (configService: ConfigType<typeof config>) => {
         return {
-          dialect: configService.db.dialect as Dialect,
+          dialect: 'postgres',
           uri: configService.postgres.uri,
           models: [User, Kanji, UserKanji],
           synchronize: false,
           logging: false,
-          
         };
       },
       inject: [config.KEY],

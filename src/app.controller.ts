@@ -42,7 +42,8 @@ export class AppController {
       return res.status(201).json({ message: 'User created successfully' });
     } catch (e) {
       console.log('error en el sign up');
-      return res.status(e.status).json(e.response);
+      console.log(e);
+      return res.status(400).json(e.response);
     }
   }
 
