@@ -14,6 +14,7 @@ import { Exclude, Expose } from 'class-transformer';
 
 import { Kanji } from 'src/kanjis/models/kanji.model';
 import { UserKanji } from './user-kanji.model';
+import { allow } from 'joi';
 
 @Table({ tableName: 'users' })
 export class User extends Model {
@@ -32,6 +33,8 @@ export class User extends Model {
   @Column({ defaultValue: 'user' })
   declare role: string;
   @BelongsToMany(() => Kanji, () => UserKanji)
+  @Column({ field: 'profile_picture', allowNull: true })
+  declare profilePicture: string;
   favKanjis: Kanji[];
 
   //todo exclude createdAt and updatedAt fields from the response

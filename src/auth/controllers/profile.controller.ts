@@ -54,7 +54,10 @@ export class ProfileController {
       return res.status(e.status).json(e.response);
     }
   }
-
+  @Get("profile-picture")
+  async getProfilePicture(@Req() req, @Res() res: Response) {
+    
+  }
   @Get('favorites')
   getFavoriteKanjis(@Req() req) {
     return this.usersService.getFavoriteKanjis(req.user.userId);

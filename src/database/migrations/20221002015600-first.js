@@ -28,6 +28,11 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: 'user',
       },
+      profilePicture:{
+        type: Sequelize.STRING,
+        allowNull: true,
+        field: "profile_picture"  
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

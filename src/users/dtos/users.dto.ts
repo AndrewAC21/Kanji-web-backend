@@ -26,6 +26,10 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   readonly role?: string;
+
+  @IsOptional()
+  @IsString()
+  readonly profilePicture?: File
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}
