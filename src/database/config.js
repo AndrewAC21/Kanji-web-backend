@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 module.exports = {
   development: {
     url: process.env.POSTGRES_URI_DEV,
