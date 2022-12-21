@@ -32,9 +32,9 @@ export class User extends Model {
   declare fullName: string;
   @Column({ defaultValue: 'user' })
   declare role: string;
-  @BelongsToMany(() => Kanji, () => UserKanji)
   @Column({ field: 'profile_picture', allowNull: true })
   declare profilePicture: string;
+  @BelongsToMany(() => Kanji, () => UserKanji)
   favKanjis: Kanji[];
 
   //todo exclude createdAt and updatedAt fields from the response

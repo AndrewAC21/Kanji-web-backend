@@ -1,5 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { Exclude, Expose, Type } from 'class-transformer';
+
+import { Express } from 'express';
 import {
   IsEmail,
   IsOptional,
@@ -29,7 +31,7 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsString()
-  readonly profilePicture?: File
+  readonly profilePicture?: Express.Multer.File;
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}
