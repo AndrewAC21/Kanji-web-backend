@@ -19,6 +19,8 @@ async function bootstrap() {
     origin: [
       'https://andrewac21.github.io',
       'http://andrewac.software/kanji-app',
+      'http://andrewac.software',
+      'http://www.andrewac.software'
     ],
   });
   const configService = app.get(ConfigService);
