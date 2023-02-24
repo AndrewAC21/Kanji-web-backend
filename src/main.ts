@@ -18,7 +18,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'https://andrewac21.github.io',
-      'http://andrewac21.software/kanji-app',
+      'http://andrewac.software/kanji-app',
     ],
   });
   const configService = app.get(ConfigService);
