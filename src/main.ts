@@ -17,10 +17,9 @@ async function bootstrap() {
   // );
   app.enableCors({
     origin: [
-      'https://andrewac21.github.io',
-      'http://andrewac.software/kanji-app',
-      'http://andrewac.software',
-      'http://www.andrewac.software'
+      'https://andrewac.software/kanji-app',
+      'https://www.andrewac.software',
+      'https://andrewac.software'
     ],
   });
   const configService = app.get(ConfigService);
